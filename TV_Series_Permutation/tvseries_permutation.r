@@ -19,7 +19,7 @@ message('Longest TV Series: ', attributes(which.max(len)), '\n',
 	'Spearman corellation between length and 75% quantile: ', cor(len, quantl75, m = "s"), '\n',
 	'Spearman corellation between length and rates dispersal: ', cor(len, quantl75 - quantl25, m = "s"), '\n')
 
-plot(len, quantl75 - quantl25)
+# plot(len, quantl75 - quantl25)
 
 permutation_test <- function(a, b){
 	cor1 <- cor(a, b, m = "s")
@@ -27,18 +27,18 @@ permutation_test <- function(a, b){
 	return(sum(cor1 < repl)/length(repl))
 }
 
-
 # print(permutation_test(len, quantl75 - quantl25))
-
-
-# pick two TV series - both 96 long in this case
-a <- seriale[17]
-b <- seriale[98]
 
 second_permutation_test <- function(a, b){
 	first <- unlist(unname(a))
 	second <- unlist(unname(b))
-	split(sample(c(a, b)), c('series1', 'series2'))
+	median_diff <- abs(median(first) - median(second))
+	repl <- replicate(10000, {
+		lss <- split(sample(c(first, second)), rep(c(names(a), names(b)), c(length(first), length(second))))
+		med_diff <- abs(median(unlist(lss[1])) - median(unlist(lss[2])))
+		})
+	return(sum(median_diff < repl)/length(repl))
 }
 
-print(second_permutation_test(a, b))
+
+print(second_permutation_test(seriale[47], seriale[12]))

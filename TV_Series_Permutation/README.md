@@ -1,0 +1,2 @@
+# Nonparametric statistics
+In this exercise I'm trying to perform two nonparametric tests. First test tells us whether corellation between two series of data is relevant. Second test tells us if one TV series is indeed better than another.
